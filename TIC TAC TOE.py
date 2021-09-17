@@ -5,9 +5,8 @@ user_name = input("Enter your name")
 game_board = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: ''}
 selections = {}
 i = 1
-available_options = []
-for key in game_board:
-    available_options.append(key)
+available_options = [1,2,3,4,5,6,7,8,9]
+
 
 
 def print_game_board(board):
@@ -31,23 +30,6 @@ def winning_options(board, mk):
                         board[3] == mk and board[5] == mk and board[7] == mk))
 
 
-# for k in range(1, 4):
-# if k == 1 or k == 4 or k == 7:
-#   if board[k] == board[k + 1] == board[k + 2] == mk:
-#      return True
-# elif k == 1 or k == 2 or k == 3:
-#   if board[k] == board[k + 3] == board[k + 6] == mk:
-# return True
-# elif k == 1:
-# if board[k] == board[k + 4] == board[k + 8] == mk:
-#   return True
-# elif k == 3:
-# if board[k] == board[k + 2] == board[k + 4] == mk:
-#   return True
-# else:
-# return False
-
-
 def board_full(board):
     for m in range(1, 10):
         if board[m] != '':
@@ -57,30 +39,28 @@ def board_full(board):
     return True
 
 
-def user_selection():
+def user_selection(board):
     user_place = int(input("Your selection"))
-    if user_place == 'X' or 'O':
-        if game_board[user_place] == '':
-            game_board[user_place] = user_turn
+    if user_place <= 9:
+        if board[user_place] == '':
+            board[user_place] = user_turn
         else:
             print("Place is already occupied, enter another selection")
-            user_selection()
-    elif board_full(game_board):
+            user_selection(board)
+    elif board_full(board):
         return 0
-    else:
-        user_selection()
     return user_place
 
 
-def comptr_selection():
+def comptr_selection(board):
     comptr_place = random.choice(available_options)
-    if game_board[comptr_place] == '':
-        game_board[comptr_place] = comptr_turn
+    if board[comptr_place] == '':
+        board[comptr_place] = comptr_turn
         print(f"computer selection:{comptr_place}")
-    elif board_full(game_board):
+    elif board_full(board):
         return 0
     else:
-        comptr_selection()
+        comptr_selection(board)
     return comptr_place
 
 
@@ -92,7 +72,8 @@ if user_turn == 'X':
     comptr_turn = 'O'
 else:
     comptr_turn = 'X'
-storing = {}
+storing = []
+game_in = []
 while i <= 10:
     game_board = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: ''}
     j = 1
@@ -100,21 +81,27 @@ while i <= 10:
     winner = {}
     while not board_full(game_board):
         print(f"Round{j}")
-        use_in = user_selection()
-        comp_in = comptr_selection()
+        use_in = user_selection(game_board)
+        comp_in = comptr_selection(game_board)
+        print_game_board(game_board)
         if winning_options(game_board, user_turn):
             winner[i] = 'user'
         elif winning_options(game_board, comptr_turn):
             winner[i] = 'computer'
-
-        print_game_board(game_board)
-        # if board_full(game_board):
-        # print("Game Over.")
         selections[j] = [use_in, comp_in]
-        print(selections[j])
         j = j + 1
-    storing[i] = [selections, winner[i]]
+    game_in.append(game_board)
+    storing.append(winner[i])
+    print(F"winner is {winner[i]}")
     i = i + 1
-value = int(input("Enter the game you want to find:"))
-if value > 1 and value < 10:
-    print(storing[value])
+c = 'y'
+while(c == 'y'):
+    try:
+      value = int(input("Enter the game you want to find:"))
+      print(storing[value - 1])
+      print(f"The {value} gameboard is:\n ")
+      print(print_game_board(game_in[value - 1]))
+    except:
+        print("round doesn't exist")
+    c = input("Do you want to continue: y/n")
+
