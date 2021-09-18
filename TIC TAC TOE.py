@@ -1,33 +1,28 @@
 import random
-
 print("Welcome to Tic Tac Toe,Let's start the game")
 user_name = input("Enter your name")
 game_board = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: ''}
 selections = {}
 i = 1
-available_options = [1,2,3,4,5,6,7,8,9]
-
+available_options = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
 def print_game_board(board):
-    print('----+----+----')
-    print('|   ' + board[1] + '|   ' + board[2] + '|   ' + board[3] + '|')
-    print('----+----+----')
-    print('|   ' + board[4] + '|   ' + board[5] + '|   ' + board[6] + '|')
-    print('----+----+----')
-    print('|   ' + board[7] + '|   ' + board[8] + '|   ' + board[9] + '|')
-    print('----+----+----')
+    print('----+----+----\n |   ' + board[1] + '|   ' + board[2] + '|   ' + board[3] + '|\n ----+----+----\n |   ' +
+          board[4] + '|   ' + board[5] + '|   ' + board[6] + '|')
+    print('----+----+----\n |   ' + board[7] + '|   ' + board[8] + '|   ' + board[9] + '| \n ----+----+----')
 
 
 def winning_options(board, mk):
-    return ((board[1] == mk and board[2] == mk and board[3] == mk) or (
-                board[4] == mk and board[5] == mk and board[6] == mk) or (
-                        board[7] == mk and board[8] == mk and board[9] == mk) or (
-                        board[1] == mk and board[4] == mk and board[7] == mk) or (
-                        board[2] == mk and board[5] == mk and board[8] == mk) or (
-                        board[3] == mk and board[6] == mk and board[9] == mk) or (
-                        board[1] == mk and board[5] == mk and board[9] == mk) or (
-                        board[3] == mk and board[5] == mk and board[7] == mk))
+    count = 0
+    mn = 0
+    win_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
+    for mn in range(len(win_list)):
+        if board[win_list[mn][0]] == mk and board[win_list[mn][1]] == mk and board[win_list[mn][2]] == mk:
+           count = 1
+    return count
+
+
 
 
 def board_full(board):
@@ -66,12 +61,15 @@ def comptr_selection(board):
 
 print_game_board(game_board)
 print(f"You can choose your sign from ['X','O'] and available empty spaces [1-9],{user_name}")
-user_turn = input("Select your sign")
 
+user_turn = input("Select your sign")
 if user_turn == 'X':
     comptr_turn = 'O'
 else:
     comptr_turn = 'X'
+
+
+
 storing = []
 game_in = []
 while i <= 10:
@@ -95,13 +93,12 @@ while i <= 10:
     print(F"winner is {winner[i]}")
     i = i + 1
 c = 'y'
-while(c == 'y'):
+while (c == 'y'):
     try:
-      value = int(input("Enter the game you want to find:"))
-      print(storing[value - 1])
-      print(f"The {value} gameboard is:\n ")
-      print(print_game_board(game_in[value - 1]))
+        value = int(input("Enter the game you want to find:"))
+        print(storing[value - 1])
+        print(f"The {value} gameboard is:\n ")
+        print(print_game_board(game_in[value - 1]))
     except:
         print("round doesn't exist")
     c = input("Do you want to continue: y/n")
-
