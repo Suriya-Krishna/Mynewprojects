@@ -2,12 +2,12 @@ import random
 
 class Pet():
 
-    print("You can feed, teach and interact with your pet now.")
+    print("Welcome to electronic pet")
     th_bore = 150
     th_hun = 100
     boredom_decrem = 15
     hunger_decrem = 20
-    def __init__(self,pet_name, hunger=10, boredom = 10, sounds = []):
+    def __init__(self,pet_name, hunger=random.randint(10,100), boredom = random.randint(10,150), sounds = []):
         self.hunger = hunger
         self.boredom = boredom
         self.sounds = sounds
@@ -40,6 +40,7 @@ class Pet():
     def teach(self, new_word):
         Pet.reduce_boredom(self)
         self.sounds.append(new_word)
+        print(self.sounds)
 
 
     def hi(self):
@@ -61,15 +62,16 @@ pets_list[2]=pet2
 pets_list[3]=pet3
 c = 'y'
 n = 3
-while c=='y':
+while c =='y':
     option = int(input("Select your activity :1.Adopt a new pet ,2.Interact with an existing one."))
     if option == 1:
         name = input("Enter the pet name you want")
         pet_new = Pet(name)
-        pets_list[n+1]= pet_new
+        n=n+1
+        pets_list[n] = pet_new
         print("You can teach your pet new words")
-        word = input("Give a word")
-        pet_new.teach(word)
+        wordn = input("give the word you want to teach")
+        pet_new.teach(wordn)
     elif option == 2:
         print(pets_list)
         fav_pet = int(input("select your favourite pet: "))
@@ -87,11 +89,11 @@ while c=='y':
             obj.hi()
         elif opt == 'f':
             obj.feed()
+        for key in pets_list:
+            mn = pets_list[key]
+            mn.clock_tick()
 
     c = input("do you want to contnue? y/n")
-for key in pets_list:
-    mn = pets_list[key]
-    mn.clock_tick()
 status = int(input("Enter the state of pet you want to know"))
 print(pets_list[status])
 
