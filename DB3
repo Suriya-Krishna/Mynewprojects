@@ -1,0 +1,62 @@
+import sqlite3
+
+def db_connect():
+    conn = sqlite3.connect('new_db.db')
+    return conn
+
+def create_table():
+    conn = db_connect()
+    cur = conn.cursor()
+    query = """CREATE TABLE DEPARTMENT(DEPT_NAME TEXT NOT NULL, DEPT_ID INT PRIMARY KEY NOT NULL)"""
+    cur.execute(query)
+    query1 = """CREATE TABLE EMPLOYEE(NAME TEXT NOT NULL,EMP_ID INT PRIMARY KEY NOT NULL, SALARY INT NOT NULL, DEPT_ID INT NOT NULL, FOREIGN KEY(DEPT_ID) REFERENCES DEPARTMENT(DEPT_ID))"""
+    cur.execute(query1)
+    query2 = """ALTER TABLE EMPLOYEE ADD COLUMN CITY TEXT NOT NULL """
+    cur.execute(query2)
+    conn.commit()
+    conn.close()
+
+def add_data():
+    conn = db_connect()
+    cur = conn.cursor()
+    dept_data = """INSERT INTO DEPARTMENT(DEPT_NAME,DEPT_ID) VALUES(?,?)"""
+    cur.execute(dept_data, ('Information technology', 1))
+    cur.execute(dept_data, ('Biotechnology', 2))
+    cur.execute(dept_data, ('Urban planning', 3))
+    cur.execute(dept_data, ('Mechatronics', 4))
+    cur.execute(dept_data, ('Electronics', 5))
+    emp_data = """INSERT INTO EMPLOYEE(NAME, EMP_ID, SALARY, DEPT_ID, CITY) VALUES(?,?,?,?,?)"""
+    cur.execute(emp_data, ('Suriya Krishna', 101, 32000, 3, 'Kolkata'))
+    cur.execute(emp_data, ('Rahul MM', 102, 42000, 2, 'Mumbai'))
+    cur.execute(emp_data, ('Sreelekshmi', 103, 30000, 4, 'Chennai'))
+    cur.execute(emp_data, ('Rohith SK', 104, 45000, 1, 'Kochi'))
+    cur.execute(emp_data, ('Joan', 105, 35000, 5, 'Pune'))
+    conn.commit()
+    conn.close()
+
+
+conn = db_connect()
+cur = conn.cursor()
+cur.execute("DROP TABLE IF EXISTS EMPLOYEE")
+cur.execute("DROP TABLE IF EXISTS DEPARTMENT")
+create_table()
+add_data()
+cur.execute("SELECT NAME,EMP_ID,SALARY from EMPLOYEE")
+print(cur.fetchall())
+opt = input("enter the character")
+cur.execute(f"SELECT * from EMPLOYEE where NAME LIKE '{opt}%'")
+print(cur.fetchall())
+opt1 = int(input("Enter desired ID(101,102,103,104,105)"))
+cur.execute(f"SELECT * from EMPLOYEE where EMPLOYEE.EMP_ID=={opt1}")
+print(cur.fetchall())
+opt2 = input("Enter the name you want to change to:")
+cur.execute("UPDATE EMPLOYEE "
+            f"SET NAME ={opt2} "
+            f"WHERE EMP_ID={opt1};")
+print(cur.fetchall)
+conn.commit()
+print(cur.fetchall)
+opt3 = int(input("Enter desired ID(1,2,3,4,5)"))
+cur.execute(f"SELECT * from EMPLOYEE INNER JOIN DEPARTMENT where DEPARTMENT.DEPT_ID == {opt3} and DEPARTMENT.DEPT_ID==EMPLOYEE.DEPT_ID")
+print(cur.fetchall())
+
