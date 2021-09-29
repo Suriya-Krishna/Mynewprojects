@@ -50,13 +50,12 @@ opt1 = int(input("Enter desired ID(101,102,103,104,105)"))
 cur.execute(f"SELECT * from EMPLOYEE where EMPLOYEE.EMP_ID=={opt1}")
 print(cur.fetchall())
 opt2 = input("Enter the name you want to change to:")
-cur.execute("UPDATE EMPLOYEE "
-            f"SET NAME ={opt2} "
-            f"WHERE EMP_ID={opt1};")
-print(cur.fetchall)
-conn.commit()
+cur.execute("UPDATE EMPLOYEE SET NAME ='{opt2}' WHERE EMP_ID={opt1}")
+cur.execute("SELECT * from EMPLOYEE")
 print(cur.fetchall)
 opt3 = int(input("Enter desired ID(1,2,3,4,5)"))
 cur.execute(f"SELECT * from EMPLOYEE INNER JOIN DEPARTMENT where DEPARTMENT.DEPT_ID == {opt3} and DEPARTMENT.DEPT_ID==EMPLOYEE.DEPT_ID")
 print(cur.fetchall())
+conn.commit()
+conn.close()
 
