@@ -71,7 +71,7 @@ print("Printing the Match_ID and Unique_Team_ID with the corresponding Team_Name
 cur.execute("SELECT  * from Unique_Teams JOIN Teams_in_Matches ON Teams_in_Matches.Unique_Team_ID = Unique_Teams.Unique_Team_ID LIMIT 10")
 print(res_print(cur))
 
-print(" joins together the Unique_Teams data table and the Teams table, and returns the first 10 rows.")
+print("Joins together the Unique_Teams data table and the Teams table, and returns the first 10 rows.")
 cur.execute("SELECT * from Unique_Teams JOIN Teams LIMIT 10")
 print(res_print(cur))
 
@@ -79,7 +79,7 @@ print("shows the Unique_Team_ID and TeamName from the Unique_Teams table and Avg
 cur.execute("SELECT Unique_Team_ID,Unique_Teams.TeamName,AvgAgeHome,Season,ForeignPlayersHome from Unique_Teams JOIN Teams ON Teams.TeamName = Unique_Teams.TeamName LIMIT 5")
 print(res_print(cur))
 
-print(" shows the highest Match_ID for each team that ends in a “y” or a “r”. Along with the maximum Match_ID, display the Unique_Team_ID from the Teams_in_Matches table and the TeamName from the Unique_Teams table.")
+print("Shows the highest Match_ID for each team that ends in a “y” or a “r”. Along with the maximum Match_ID, display the Unique_Team_ID from the Teams_in_Matches table and the TeamName from the Unique_Teams table.")
 cur.execute("SELECT MAX(Match_ID), Teams_in_Matches.Unique_Team_ID,TeamName from Teams_in_Matches JOIN Unique_Teams ON Teams_in_Matches.Unique_Team_ID =Unique_Teams.Unique_Team_ID where (TeamName LIKE '%r') OR (TeamName LIKE '%a') group by Teams_in_Matches.Unique_Team_ID,TeamName")
 print(res_print(cur))
 conn.commit()
