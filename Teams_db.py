@@ -55,7 +55,7 @@ print(f"Sum of squad players is : {sum1[0][0]}")
 cur.execute("SELECT ROUND(AVG(FTHG),2) from Matches where HomeTeam='Man United'")
 print(f"Average no: of goals:{cur.fetchall()[0][0]}")
 
-print("Matches where season = 2010 and HomeTeam = 'Arsenal'")
+print("Matches where season = 2010 and HomeTeam = 'Aachen'")
 cur.execute("SELECT HomeTeam,FTHG,FTAG from Matches where season = 2010 and HomeTeam = 'Aachen' order by FTHG DESC,FTAG ASC ")
 print(res_print(cur))
 
